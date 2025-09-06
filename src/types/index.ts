@@ -1,3 +1,35 @@
+// Enums
+export enum ProductType {
+  SIMPLE = "simple",
+  VARIABLE = "variable",
+  GROUPED = "grouped",
+  EXTERNAL = "external",
+}
+
+export enum StockStatus {
+  INSTOCK = "instock",
+  OUTOFSTOCK = "outofstock",
+  ONBACKORDER = "onbackorder",
+}
+
+export enum ProductStatus {
+  DRAFT = "draft",
+  PUBLISHED = "published",
+}
+
+// Product-related interfaces
+export interface ProductDimensions {
+  length: number;
+  width: number;
+  height: number;
+}
+
+export interface ProductImage {
+  url: string;
+  altText?: string;
+  position: number;
+}
+
 // User Types
 export interface User {
   _id: string;
@@ -37,21 +69,48 @@ export interface Product {
   name: string;
   slug: string;
   description: string;
-  categoryId: Category;
-  brandId?: Brand;
-  variants: ProductVariant[];
-  images: string[];
-  tags: string[];
+  shortDescription: string;
+  sku: string;
+  type: ProductType;
+  price: number;
+  salePrice?: number;
+  originalPrice?: number;
+  currency: string;
+  stockQuantity: number;
+  stockStatus: StockStatus;
+  inStock: boolean;
+  weight?: number;
+  dimensions?: ProductDimensions;
+  gsm?: string;
+  size?: string;
+  sheets?: string;
   rating: number;
+  reviews: number;
+  features: string[];
+  applications: string[];
   seo: SEOData;
   isActive: boolean;
+  bestSeller: boolean;
+  manageStock: boolean;
+  allowBackorders: boolean;
+  status: ProductStatus;
+  categories: string[];
+  tags: string[];
+  brand?: string;
+  attributes: string[];
+  variations?: string[];
+  images: ProductImage[];
   createdAt: string;
   updatedAt: string;
-  // Additional properties used in the UI
-  sku?: string;
-  price?: number;
-  stockQuantity?: number;
-  status?: string;
+  // Dashboard-specific computed fields
+  categoryName?: string;
+  brandName?: string;
+  totalVariants?: number;
+  lowStock?: boolean;
+  // Legacy fields for backward compatibility
+  categoryId?: Category;
+  brandId?: Brand;
+  variants?: ProductVariant[];
   category?: Category; // Alias for categoryId
 }
 
@@ -64,11 +123,7 @@ export interface ProductVariant {
   costPrice: number;
   stockQuantity: number;
   weight: number;
-  dimensions: {
-    length: number;
-    width: number;
-    height: number;
-  };
+  dimensions: ProductDimensions;
   attributes: Record<string, string>;
   isActive: boolean;
 }
@@ -339,12 +394,38 @@ export interface RegisterForm {
 
 export interface ProductForm {
   name: string;
+  slug: string;
   description: string;
-  categoryId: string;
-  brandId?: string;
+  shortDescription: string;
+  sku: string;
+  type: ProductType;
+  price: number;
+  salePrice?: number;
+  originalPrice?: number;
+  currency: string;
+  stockQuantity: number;
+  stockStatus: StockStatus;
+  weight?: number;
+  dimensions?: ProductDimensions;
+  gsm?: string;
+  size?: string;
+  sheets?: string;
+  rating: number;
+  reviews: number;
+  features: string[];
+  applications: string[];
+  seo: SEOData;
+  isActive: boolean;
+  bestSeller: boolean;
+  manageStock: boolean;
+  allowBackorders: boolean;
+  status: ProductStatus;
+  categories: string[];
   tags: string[];
-  variants: Omit<ProductVariant, '_id'>[];
-  images: string[];
+  brand?: string;
+  attributes: string[];
+  variations?: string[];
+  images: ProductImage[];
 }
 
 // Filter Types
@@ -354,9 +435,14 @@ export interface ProductFilters {
   brand?: string;
   minPrice?: number;
   maxPrice?: number;
-  inStock?: boolean;
   rating?: number;
-  sortBy?: 'name' | 'price' | 'rating' | 'createdAt';
+  inStock?: boolean;
+  bestSeller?: boolean;
+  status?: ProductStatus;
+  tags?: string[];
+  gsm?: string;
+  size?: string;
+  sortBy?: 'name' | 'price' | 'rating' | 'createdAt' | 'updatedAt';
   sortOrder?: 'asc' | 'desc';
   page?: number;
   limit?: number;
