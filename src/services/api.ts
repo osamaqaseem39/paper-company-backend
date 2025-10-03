@@ -89,4 +89,4 @@ class ApiClient {
 const api = new ApiClient(API_BASE_URL);
 
 export default api;
-export { ApiResponse };
+export type { ApiResponse };
