@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { XMarkIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { Product, Category, Brand, ProductVariant } from '../../types';
+import { Product, Category, Brand, ProductVariant, ProductImage } from '../../types';
 
 interface ProductFormProps {
   product?: Product;
@@ -28,7 +28,7 @@ interface ProductFormData {
     noFollow: boolean;
   };
   variants: Omit<ProductVariant, '_id'>[];
-  images: string[];
+  images: ProductImage[];
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({
@@ -735,8 +735,8 @@ const ProductForm: React.FC<ProductFormProps> = ({
               {formData.images.map((image, index) => (
                 <div key={index} className="relative">
                   <img
-                    src={image}
-                    alt={`Product image ${index + 1}`}
+                    src={image.url}
+                    alt={image.altText || `Product image ${index + 1}`}
                     className="w-full h-24 object-cover rounded-lg"
                   />
                   <button

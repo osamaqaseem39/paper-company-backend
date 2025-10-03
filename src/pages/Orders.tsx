@@ -376,7 +376,7 @@ const Orders: React.FC = () => {
                   <div key={index} className="flex justify-between items-center py-2 border-b border-gray-200 last:border-b-0">
                     <div className="flex items-center">
                       <img
-                        src={item.product?.images?.[0] || '/placeholder-product.png'}
+                        src={item.product?.images?.[0]?.url || '/placeholder-product.png'}
                         alt={item.product?.name}
                         className="h-12 w-12 rounded-md object-cover mr-3"
                       />
