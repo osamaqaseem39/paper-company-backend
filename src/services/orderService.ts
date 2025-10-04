@@ -16,31 +16,31 @@ export const orderService = {
     params.append('page', page.toString());
     params.append('limit', limit.toString());
 
-    const response = await api.get(`/orders?${params.toString()}`);
-    return response.data;
+    const response = await api.get<any>(`/orders?${params.toString()}`);
+    return response;
   },
 
   // Get single order by ID
   async getOrder(id: string): Promise<ApiResponse<{ order: Order }>> {
-    const response = await api.get(`/orders/${id}`);
-    return response.data;
+    const response = await api.get<any>(`/orders/${id}`);
+    return response;
   },
 
   // Update order status
   async updateOrderStatus(id: string, status: string): Promise<ApiResponse<{ order: Order }>> {
-    const response = await api.put(`/orders/${id}/status`, { status });
-    return response.data;
+    const response = await api.put<any>(`/orders/${id}/status`, { status });
+    return response;
   },
 
   // Cancel order
   async cancelOrder(id: string, reason?: string): Promise<ApiResponse<{ message: string }>> {
-    const response = await api.post(`/orders/${id}/cancel`, { reason });
-    return response.data;
+    const response = await api.post<any>(`/orders/${id}/cancel`, { reason });
+    return response;
   },
 
   // Get order statistics
   async getOrderStats(): Promise<ApiResponse<any>> {
-    const response = await api.get('/orders/stats');
-    return response.data;
+    const response = await api.get<any>('/orders/stats');
+    return response;
   },
 }; 

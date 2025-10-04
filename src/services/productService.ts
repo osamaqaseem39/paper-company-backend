@@ -19,32 +19,32 @@ export const productService = {
     params.append('page', page.toString());
     params.append('limit', limit.toString());
 
-    const response = await api.get(`/products?${params.toString()}`);
-    return response.data;
+    const response = await api.get<any>(`/products?${params.toString()}`);
+    return response;
   },
 
   // Get single product by ID
   async getProduct(id: string): Promise<ApiResponse<{ product: Product }>> {
-    const response = await api.get(`/products/${id}`);
-    return response.data;
+    const response = await api.get<{ product: Product }>(`/products/${id}`);
+    return response;
   },
 
   // Create new product
   async createProduct(productData: any): Promise<ApiResponse<{ product: Product }>> {
-    const response = await api.post('/products', productData);
-    return response.data;
+    const response = await api.post<{ product: Product }>('/products', productData);
+    return response;
   },
 
   // Update product
   async updateProduct(id: string, productData: any): Promise<ApiResponse<{ product: Product }>> {
-    const response = await api.put(`/products/${id}`, productData);
-    return response.data;
+    const response = await api.put<{ product: Product }>(`/products/${id}`, productData);
+    return response;
   },
 
   // Delete product
   async deleteProduct(id: string): Promise<ApiResponse<{ message: string }>> {
-    const response = await api.delete(`/products/${id}`);
-    return response.data;
+    const response = await api.delete<{ message: string }>(`/products/${id}`);
+    return response;
   },
 
   // Upload product images
@@ -54,11 +54,11 @@ export const productService = {
       formData.append('images', image);
     });
 
-    const response = await api.post(`/products/${id}/images`, formData, {
+    const response = await api.post<any>(`/products/${id}/images`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
-    return response.data;
+    return response;
   },
 }; 

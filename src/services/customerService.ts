@@ -10,8 +10,8 @@ export const customerService = {
       if (filters?.page) params.append('page', filters.page.toString());
       if (filters?.limit) params.append('limit', filters.limit.toString());
 
-      const response = await api.get(`/customers?${params.toString()}`);
-      return { success: true, data: response.data };
+      const response = await api.get<any>(`/customers?${params.toString()}`);
+      return response;
     } catch (error: any) {
       return { success: false, errors: [error.response?.data?.message || 'Failed to fetch customers'] };
     }
@@ -19,8 +19,8 @@ export const customerService = {
 
   async getCustomer(id: string): Promise<ApiResponse<Customer>> {
     try {
-      const response = await api.get(`/customers/${id}`);
-      return { success: true, data: response.data };
+      const response = await api.get<Customer>(`/customers/${id}`);
+      return response;
     } catch (error: any) {
       return { success: false, errors: [error.response?.data?.message || 'Failed to fetch customer'] };
     }
@@ -28,8 +28,8 @@ export const customerService = {
 
   async createCustomer(customerData: Partial<Customer>): Promise<ApiResponse<Customer>> {
     try {
-      const response = await api.post('/customers', customerData);
-      return { success: true, data: response.data };
+      const response = await api.post<Customer>('/customers', customerData);
+      return response;
     } catch (error: any) {
       return { success: false, errors: [error.response?.data?.message || 'Failed to create customer'] };
     }
@@ -37,8 +37,8 @@ export const customerService = {
 
   async updateCustomer(id: string, customerData: Partial<Customer>): Promise<ApiResponse<Customer>> {
     try {
-      const response = await api.put(`/customers/${id}`, customerData);
-      return { success: true, data: response.data };
+      const response = await api.put<Customer>(`/customers/${id}`, customerData);
+      return response;
     } catch (error: any) {
       return { success: false, errors: [error.response?.data?.message || 'Failed to update customer'] };
     }
